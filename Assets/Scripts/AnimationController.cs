@@ -6,38 +6,30 @@ public class AnimationController : MonoBehaviour
     [SerializeField] private Animator animator;
     private int animationVariable = 0;
     private int animationVariableMax = 3;
-    [SerializeField] private Button button;
-
-
-
+    public ScoreButton scoreButton;
     private void Awake()
     {
-        animator = GetComponentInChildren<Animator>();
-        button = GetComponentInChildren<Button>();
-
+        //animator = GetComponentInChildren<Animator>();
+        scoreButton.OnScoreChanged += OnMouseDown;
     }
 
-    private void Start()
-    {
-        button.onClick.AddListener(OnMouseDown);
-    }
 
-    public void OnMouseDown()
+    public void OnMouseDown(int score) //매개변수 주어서 유니티 풀림
     {
         //animationVariable을 수정
-        //처음에 -1로 안움직이기
-        //클릭하면 0 아이들
-        //클릭하면 1 점프
-        //클릭하면 2 공격
+
         animator.SetInteger("idle", animationVariable);
         animator.SetInteger("doJump", animationVariable);
         animator.SetInteger("doAttack", animationVariable);
+
+        //%이용해서 1줄로 줄이기
         animationVariable++;
-        Debug.Log(animationVariable);
-        if(animationVariable == animationVariableMax)
+
+        if(animationVariable >= animationVariableMax) // ==보다 이게 더 방어적
         {
             animationVariable = 0;
         }
+        
     }
 
 }
